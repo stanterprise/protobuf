@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package testsystem.observer;
+
+import "testsystem/events.proto";
+
+service TestEventCollector {
+  rpc ReportTestStart(testsystem.events.TestStartEvent) returns (Ack);
+  rpc ReportTestFinish(testsystem.events.TestFinishEvent) returns (Ack);
+  rpc ReportTestStep(testsystem.events.TestStepEvent) returns (Ack);
+}
+
+message Ack {
+  bool success = 1;
+  string message = 2; // Optional message
+}

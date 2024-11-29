@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package testsystem.events;
+
+import "google/protobuf/timestamp.proto";
+import "testsystem/common.proto";
+
+option java_package = "com.yourcompany.testsystem.events";
+option java_multiple_files = true;
+
+message TestStartEvent {
+  string test_id = 1;
+  string test_name = 2;
+  google.protobuf.Timestamp start_time = 3;
+  map<string, string> metadata = 4; // Additional metadata
+}
+
+message TestFinishEvent {
+  string test_id = 1;
+  testsystem.common.TestStatus status = 2;
+  google.protobuf.Timestamp end_time = 3;
+  repeated testsystem.common.Attachment attachments = 4;
+  string error_message = 5; // If any
+  string stack_trace = 6;   // If any
+}
+
+message TestStep {
+  string description = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  testsystem.common.TestStatus status = 3;
+  repeated testsystem.common.Attachment attachments = 4;
+}
+
+message TestStepEvent {
+  string test_id = 1;
+  repeated TestStep steps = 2;
+}
