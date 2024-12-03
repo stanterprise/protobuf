@@ -44,8 +44,8 @@ jobs:
 
     - name: Install Java plugins
       run: |
-        curl -L -o protoc-gen-grpc-java.zip https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/1.36.0/protoc-gen-grpc-java-1.36.0-linux-x86_64.exe
-        unzip protoc-gen-grpc-java.zip -d $HOME/bin
+        curl -L -o protoc-gen-grpc-java.jar https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/1.68.2/protoc-gen-grpc-java-1.68.2.jar
+        mv protoc-gen-grpc-java.jar $HOME/bin/protoc-gen-grpc-java
         chmod +x $HOME/bin/protoc-gen-grpc-java
 
     - name: Run Makefile
