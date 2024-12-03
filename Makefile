@@ -1,7 +1,7 @@
 # Makefile for generating gRPC code from .proto files
 
 # Variables
-PROTO_DIR := protos
+PROTO_DIR := testsystem
 PROTO_FILES := $(wildcard $(PROTO_DIR)/*.proto)
 GO_OUT_DIR := gen/go
 PY_OUT_DIR := gen/python
@@ -11,6 +11,9 @@ JAVA_OUT_DIR := gen/java
 # Protobuf compiler
 PROTOC := protoc
 
+
+#Python protobuf compiler command
+PROTOPYTHON := python -m grpc_tools.protoc
 # Plugins
 GO_PLUGIN := protoc-gen-go
 GO_GRPC_PLUGIN := protoc-gen-go-grpc
@@ -33,13 +36,15 @@ go:
 	$(PROTOC) \
 		--proto_path=$(PROTO_DIR) \
 		--go_out=$(GO_OUT_DIR) \
+		--go_opt=paths=source_relative \
 		--go-grpc_out=$(GO_OUT_DIR) \
+		--go-grpc_opt=paths=source_relative \
 		$(PROTO_FILES)
 
 # Generate Python code
 python:
 	mkdir -p $(PY_OUT_DIR)
-	$(PROTOC) \
+	$(PROTOPYTHON) \
 		--proto_path=$(PROTO_DIR) \
 		--python_out=$(PY_OUT_DIR) \
 		--grpc_python_out=$(PY_OUT_DIR) \
