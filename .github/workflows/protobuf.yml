@@ -42,12 +42,12 @@ jobs:
     - name: Install TypeScript plugins
       run: npm install -g ts-protoc-gen
 
-    - name: Install Java plugins
-      run: |
-        curl -L -o protoc-gen-grpc-java.jar https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/1.68.2/protoc-gen-grpc-java-1.68.2.jar
-        mkdir -p /home/runner/bin/protoc-gen-grpc-java
-        mv protoc-gen-grpc-java.jar $HOME/bin/protoc-gen-grpc-java
-        chmod +x $HOME/bin/protoc-gen-grpc-java
+    # - name: Install Java plugins
+    #   run: |
+    #     curl -L -o protoc-gen-grpc-java.jar https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/1.68.2/protoc-gen-grpc-java-1.68.2.jar
+    #     mkdir -p /home/runner/bin/protoc-gen-grpc-java
+    #     mv protoc-gen-grpc-java.jar $HOME/bin/protoc-gen-grpc-java
+    #     chmod +x $HOME/bin/protoc-gen-grpc-java
 
     - name: Run Makefile
       run: make all

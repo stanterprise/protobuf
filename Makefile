@@ -28,7 +28,7 @@ TS_PLUGIN_PATH := $(shell which $(TS_PLUGIN))
 JAVA_GRPC_PLUGIN_PATH := $(JAVA_GRPC_PLUGIN)
 
 # Default target
-all: go python ts java
+all: go python ts # java
 
 # Generate Go code
 go:
