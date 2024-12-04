@@ -11,9 +11,6 @@ JAVA_OUT_DIR := gen/java
 # Protobuf compiler
 PROTOC := protoc
 
-
-#Python protobuf compiler command
-PROTOPYTHON := python -m grpc_tools.protoc
 # Plugins
 GO_PLUGIN := protoc-gen-go
 GO_GRPC_PLUGIN := protoc-gen-go-grpc
@@ -36,15 +33,15 @@ go:
 	$(PROTOC) \
 		--proto_path=$(PROTO_DIR) \
 		--go_out=$(GO_OUT_DIR) \
-		--go_opt=paths=source_relative \
+		--go_opt=module=github.com/stanterprise/protobuf/gen/go \
 		--go-grpc_out=$(GO_OUT_DIR) \
-		--go-grpc_opt=paths=source_relative \
+		--go-grpc_opt=module=github.com/stanterprise/protobuf/gen/go \
 		$(PROTO_FILES)
 
 # Generate Python code
 python:
 	mkdir -p $(PY_OUT_DIR)
-	$(PROTOPYTHON) \
+	python -m grpc_tools.protoc \
 		--proto_path=$(PROTO_DIR) \
 		--python_out=$(PY_OUT_DIR) \
 		--grpc_python_out=$(PY_OUT_DIR) \
@@ -61,18 +58,19 @@ ts:
 		$(PROTO_FILES)
 
 # Generate Java code
-java:
-	mkdir -p $(JAVA_OUT_DIR)
-	$(PROTOC) \
-		--proto_path=$(PROTO_DIR) \
-		--java_out=$(JAVA_OUT_DIR) \
-		--plugin=protoc-gen-grpc-java=$(JAVA_GRPC_PLUGIN_PATH) \
-		--grpc-java_out=$(JAVA_OUT_DIR) \
-		$(PROTO_FILES)
+# java:
+# 	mkdir -p $(JAVA_OUT_DIR)
+# 	$(PROTOC) \
+# 		--proto_path=$(PROTO_DIR) \
+# 		--java_out=$(JAVA_OUT_DIR) \
+# 		--plugin=protoc-gen-grpc-java=$(JAVA_GRPC_PLUGIN_PATH) \
+# 		--grpc-java_out=$(JAVA_OUT_DIR) \
+# 		$(PROTO_FILES)
 
 # Clean generated code
 clean:
-	rm -rf gen/*
+	rm -rf gen/go/testsystem
+	rm -rf gen/python/testsystem
 
 # Help
 help:

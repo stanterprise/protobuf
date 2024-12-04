@@ -11,4 +11,16 @@
 # Built Visual Studio Code Extensions
 *.vsix
 
-gen
+# Ignore everything in gen folders
+gen/go/*
+gen/ts/*
+gen/python/*
+
+# Except the go.mod file
+!gen/go/go.mod
+
+# Except the package.json file
+!gen/ts/package.json
+
+# Except the setup.py file
+!gen/python/setup.py
