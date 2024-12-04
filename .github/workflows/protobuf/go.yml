@@ -1,5 +1,7 @@
 name: Generate Go Protobuf
 
+on: push
+
 jobs:
   build:
     runs-on: ubuntu-latest
