@@ -1,0 +1,23 @@
+name: Generate Python Protobuf
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12'
+
+    - name: Install protobuf compiler
+      run: sudo apt-get install -y protobuf-compiler
+
+    - name: Install Python plugins
+      run: pip install grpcio-tools
+
+    - name: Run Makefile
+      run: make python
