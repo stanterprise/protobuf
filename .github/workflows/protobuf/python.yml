@@ -1,5 +1,7 @@
 name: Generate Python Protobuf
 
+on: push
+
 jobs:
   build:
     runs-on: ubuntu-latest

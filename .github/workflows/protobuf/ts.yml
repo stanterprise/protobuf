@@ -1,5 +1,7 @@
 name: Generate TypeScript Protobuf
 
+on: push
+
 jobs:
   build:
     runs-on: ubuntu-latest
