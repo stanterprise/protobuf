@@ -18,6 +18,7 @@ gen/python/*
 
 # Except the go.mod file
 !gen/go/go.mod
+!gen/go/go.sum
 
 # Except the package.json file
 !gen/ts/package.json
