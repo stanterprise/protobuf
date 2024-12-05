@@ -1,9 +1,9 @@
 name: Publish Go Module
 
-on: push
-# :
-#     tags:
-#       - 'v*.*.*'  # Triggers on version tags
+on: 
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags
 
 jobs:
   build-and-publish:
