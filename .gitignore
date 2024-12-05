@@ -12,7 +12,7 @@
 *.vsix
 
 # Ignore everything in gen folders
-gen/go/*
+
 gen/ts/*
 gen/python/*
 
