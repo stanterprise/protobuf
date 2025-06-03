@@ -1,0 +1,32 @@
+{
+  "name": "stanterprise-protobuf",
+  "version": "0.1.0",
+  "description": "Generated Protobuf code",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "testsystem/**/*"
+  ],
+  "scripts": {
+    "prepare": "npm run generate",
+    "generate": "npx protoc --ts_out gen/ts --ts_opt long_type_string --ts_opt optimize_code_size --proto_path testsystem testsystem/*.proto"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/your-repo.git"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.0.0",
+    "google-protobuf": "^3.0.0"
+  },
+  "devDependencies": {
+    "@protobuf-ts/plugin": "^2.11.0",
+    "@types/google-protobuf": "^3.15.12",
+    "grpc-tools": "^1.13.0",
+    "protoc-gen-ts": "^0.8.7",
+    "ts-proto": "^2.7.2",
+    "ts-protoc-gen": "^0.15.0"
+  }
+}

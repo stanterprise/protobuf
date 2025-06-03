@@ -25,3 +25,6 @@ gen/python/*
 
 # Except the setup.py file
 !gen/python/setup.py
+
+node_modules/
+

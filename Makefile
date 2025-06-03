@@ -50,12 +50,12 @@ python:
 # Generate TypeScript code
 ts:
 	mkdir -p $(TS_OUT_DIR)
-	$(PROTOC) \
-		--plugin=protoc-gen-ts=$(TS_PLUGIN_PATH) \
+	npx protoc \
+		--ts_out=$(TS_OUT_DIR) \
+		--ts_opt long_type_string \
+		--ts_opt optimize_code_size \
 		--proto_path=$(PROTO_DIR) \
-		--js_out=import_style=commonjs,binary:$(TS_OUT_DIR) \
-		--ts_out=grpc_js:$(TS_OUT_DIR) \
-		$(PROTO_FILES)
+		${PROTO_FILES}
 
 # Generate Java code
 # java:
