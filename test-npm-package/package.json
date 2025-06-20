@@ -1,9 +1,0 @@
-{
-  "name": "test-npm-package",
-  "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
-  "dependencies": {
-    "@stanterprise/protobuf": "^0.0.3"
-  }
-}
