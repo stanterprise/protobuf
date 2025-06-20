@@ -5,7 +5,7 @@ PROTO_DIR := testsystem
 PROTO_FILES := $(wildcard $(PROTO_DIR)/*.proto)
 GO_OUT_DIR := gen/go
 PY_OUT_DIR := gen/python
-TS_OUT_DIR := gen/ts
+TS_OUT_DIR := npm/lib
 JAVA_OUT_DIR := gen/java
 
 # Protobuf compiler
