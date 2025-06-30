@@ -4,7 +4,7 @@ package testsystem.observer;
 
 import "events.proto";
 
-option go_package = "github.com/stanterprise/protobuf/gen/go/testsystem/observer";
+option go_package = "github.com/stanterprise/proto-go/gen/go/testsystem/observer";
 option java_package = "com.yourcompany.testsystem.observer";
 option java_multiple_files = true;
 
