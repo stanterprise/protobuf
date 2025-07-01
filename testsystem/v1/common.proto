@@ -19,5 +19,8 @@ enum TestStatus {
 message Attachment {
   string name = 1;
   string mime_type = 2;
-  bytes content = 3; // Binary content of the attachment
+  oneof payload {
+    bytes content = 3; // inline payload (small artefacts)
+    string uri    = 4; // e.g. presigned S3 / GCS link for large artefacts
+  }
 }
