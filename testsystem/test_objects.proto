@@ -1,3 +1,7 @@
+syntax = "proto3";
+
+package testsystem;  // adjust to your namespace
+
 message TestScript {
     string id = 1;   // Unique identifier for the test script (required in business logic)
     string name = 2; // Name of the test script (required in business logic)
