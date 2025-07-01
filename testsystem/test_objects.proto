@@ -16,5 +16,5 @@ message TestSuite {
     repeated TestScript scripts = 2; // List of test scripts in the suite
     required string description = 3; // Optional description of the test suite
     map<string, string> metadata = 4; // Additional metadata for the test suite
-    optional repeated TestSuite sub_suites = 5; // Nested test suites
+    repeated TestSuite sub_suites = 5; // Nested test suites
 }
