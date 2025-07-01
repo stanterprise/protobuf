@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package testsystem;  // adjust to your namespace
+
+message TestScript {
+    string id = 1;   // Unique identifier for the test script (required in business logic)
+    string name = 2; // Name of the test script (required in business logic)
+    string description = 3; // Description of the test script
+    repeated string steps = 4; // List of steps in the test script
+    map<string, string> metadata = 5; // Additional metadata for the test script
+    optional bool is_active = 6; // Indicates if the script is currently active or deprecated
+}
+
+message TestSuite {
+    required string name = 1; // Name of the test suite
+    repeated TestScript scripts = 2; // List of test scripts in the suite
+    required string description = 3; // Optional description of the test suite
+    map<string, string> metadata = 4; // Additional metadata for the test suite
+    repeated TestSuite sub_suites = 5; // Nested test suites
+}
