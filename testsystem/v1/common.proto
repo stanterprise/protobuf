@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package testsystem.common;
+package testsystem.v1;
 
-option go_package = "github.com/stanterprise/proto-go/gen/go/testsystem/common";
-option java_package = "com.stanterprise.testsystem.common";
+option go_package = "github.com/stanterprise/proto-go/gen/go/testsystem/v1";
+option java_package = "com.stanterprise.testsystem.v1";
 option java_multiple_files = true;
 
 // Enum for test result statuses

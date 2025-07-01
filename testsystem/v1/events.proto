@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package testsystem.v1;
+
+import "google/protobuf/timestamp.proto";
+import "testsystem/v1/common.proto";
+
+option go_package = "github.com/stanterprise/proto-go/gen/go/testsystem/v1";
+option java_package = "com.stanterprise.testsystem.v1";
+option java_multiple_files = true;
+
+message TestStartEventRequest {
+  string test_id = 1;
+  string test_name = 2;
+  google.protobuf.Timestamp start_time = 3;
+  map<string, string> metadata = 4; // Additional metadata
+}
+
+message TestFinishEventRequest {
+  string test_id = 1;
+  testsystem.v1.TestStatus status = 2;
+  google.protobuf.Timestamp end_time = 3;
+  repeated testsystem.v1.Attachment attachments = 4;
+  string error_message = 5; // If any
+  string stack_trace = 6;   // If any
+}
+
+message TestStepRequest {
+  string description = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  testsystem.v1.TestStatus status = 3;
+  repeated testsystem.v1.Attachment attachments = 4;
+}
+
+message TestStepEventRequest {
+  string test_id = 1;
+  repeated TestStepRequest steps = 2;
+}

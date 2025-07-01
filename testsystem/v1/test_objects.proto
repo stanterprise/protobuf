@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package testsystem.v1;  // adjust to your namespace
+
+option go_package = "github.com/stanterprise/proto-go/gen/go/testsystem/v1";
+option java_package = "com.stanterprise.testsystem.v1";
+option java_multiple_files = true;
+
+message TestScript {
+    string id = 1;   // Unique identifier for the test script
+    string name = 2; // Name of the test script
+    string description = 3; // Description of the test script
+    repeated string steps = 4; // List of steps in the test script
+    map<string, string> metadata = 5; // Additional metadata for the test script
+    optional bool is_active = 6; // Indicates if the script is currently active or deprecated
+}
+
+message TestSuite {
+    string name = 1; // Name of the test suite
+    repeated TestScript scripts = 2; // List of test scripts in the suite
+    string description = 3; // Optional description of the test suite
+    map<string, string> metadata = 4; // Additional metadata for the test suite
+    repeated TestSuite sub_suites = 5; // Nested test suites
+}
