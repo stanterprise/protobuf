@@ -5,7 +5,7 @@ package testsystem.v1;
 import "google/protobuf/timestamp.proto";
 import "testsystem/v1/common.proto";
 
-option go_package = "github.com/stanterprise/proto-go/gen/go/testsystem/v1";
+option go_package = "github.com/stanterprise/proto-go/testsystem/v1";
 option java_package = "com.stanterprise.testsystem.v1";
 option java_multiple_files = true;
 
