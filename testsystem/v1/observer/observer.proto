@@ -2,19 +2,20 @@ syntax = "proto3";
 
 package testsystem.v1.observer;
 
-import "testsystem/v1/events.proto";
+import "testsystem/v1/events/events.proto";
 
 option go_package = "github.com/stanterprise/proto-go/testsystem/v1/observer";
 option java_package = "com.stanterprise.testsystem.v1.observer";
 option java_multiple_files = true;
 
 service TestEventCollector {
-  rpc ReportTestStart(testsystem.v1.TestStartEventRequest) returns (AckResponse);
-  rpc ReportTestFinish(testsystem.v1.TestFinishEventRequest) returns (AckResponse);
-  rpc ReportTestStep(testsystem.v1.TestStepEventRequest) returns (AckResponse);
+  rpc ReportTestStart(testsystem.v1.events.TestStartEventRequest) returns (AckResponse);
+  rpc ReportTestFinish(testsystem.v1.events.TestFinishEventRequest) returns (AckResponse);
+  rpc ReportTestStep(testsystem.v1.events.TestStepEventRequest) returns (AckResponse);
 }
 
 message AckResponse {
   bool success = 1;
   string message = 2; // Optional message
+  optional int32 error_code = 3; // Optional error code for failed operations
 }
