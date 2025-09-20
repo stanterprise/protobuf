@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package testsystem.v1;
+package testsystem.v1.events;
 
 import "google/protobuf/timestamp.proto";
 import "testsystem/v1/common.proto";
 
-option go_package = "github.com/stanterprise/proto-go/testsystem/v1";
-option java_package = "com.stanterprise.testsystem.v1";
+option go_package = "github.com/stanterprise/proto-go/testsystem/v1/events";
+option java_package = "com.stanterprise.testsystem.v1.events";
 option java_multiple_files = true;
 
 message TestStartEventRequest {
