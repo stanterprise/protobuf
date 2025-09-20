@@ -3,7 +3,7 @@ syntax = "proto3";
 package testsystem.v1.events;
 
 import "google/protobuf/timestamp.proto";
-import "testsystem/v1/common.proto";
+import "testsystem/v1/common/common.proto";
 
 option go_package = "github.com/stanterprise/proto-go/testsystem/v1/events";
 option java_package = "com.stanterprise.testsystem.v1.events";
@@ -18,9 +18,9 @@ message TestStartEventRequest {
 
 message TestFinishEventRequest {
   string test_id = 1;
-  testsystem.v1.TestStatus status = 2;
+  testsystem.v1.common.TestStatus status = 2;
   google.protobuf.Timestamp end_time = 3;
-  repeated testsystem.v1.Attachment attachments = 4;
+  repeated testsystem.v1.common.Attachment attachments = 4;
   string error_message = 5; // If any
   string stack_trace = 6;   // If any
 }
@@ -28,8 +28,8 @@ message TestFinishEventRequest {
 message TestStepRequest {
   string description = 1;
   google.protobuf.Timestamp timestamp = 2;
-  testsystem.v1.TestStatus status = 3;
-  repeated testsystem.v1.Attachment attachments = 4;
+  testsystem.v1.common.TestStatus status = 3;
+  repeated testsystem.v1.common.Attachment attachments = 4;
 }
 
 message TestStepEventRequest {
