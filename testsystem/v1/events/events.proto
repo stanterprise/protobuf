@@ -9,14 +9,14 @@ option go_package = "github.com/stanterprise/proto-go/testsystem/v1/events";
 option java_package = "com.stanterprise.testsystem.v1.events";
 option java_multiple_files = true;
 
-message TestStartEventRequest {
+message TestBeginEventRequest {
   string test_id = 1;
   string test_name = 2;
   google.protobuf.Timestamp start_time = 3;
   map<string, string> metadata = 4; // Additional metadata
 }
 
-message TestFinishEventRequest {
+message TestEndEventRequest {
   string test_id = 1;
   testsystem.v1.common.TestStatus status = 2;
   google.protobuf.Timestamp end_time = 3;
@@ -25,14 +25,60 @@ message TestFinishEventRequest {
   string stack_trace = 6;   // If any
 }
 
-message TestStepRequest {
+message StepBeginEventRequest {
   string description = 1;
   google.protobuf.Timestamp timestamp = 2;
   testsystem.v1.common.TestStatus status = 3;
   repeated testsystem.v1.common.Attachment attachments = 4;
 }
 
-message TestStepEventRequest {
+message StepEndEventRequest {
+  google.protobuf.Timestamp timestamp = 2;
+  testsystem.v1.common.TestStatus status = 3;
+  repeated testsystem.v1.common.Attachment attachments = 4;
+  string error_message = 5; // If any
+  string stack_trace = 6;   // If any
+}
+
+message TestFailureEventRequest {
   string test_id = 1;
-  repeated TestStepRequest steps = 2;
+  string failure_message = 2;
+  string stack_trace = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  repeated testsystem.v1.common.Attachment attachments = 5;
+}
+message TestErrorEventRequest {
+  string test_id = 1;
+  string error_message = 2;
+  string stack_trace = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  repeated testsystem.v1.common.Attachment attachments = 5;
+}
+
+message StdErrorEventRequest {
+  string test_id = 1;
+  string message = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+message StdOutputEventRequest {
+  string test_id = 1;
+  string message = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message SuiteBeginEventRequest {
+  string suite_id = 1;
+  string suite_name = 2;
+  google.protobuf.Timestamp start_time = 3;
+  map<string, string> metadata = 4; // Additional metadata
+}
+message SuiteEndEventRequest {
+  string suite_id = 1;
+  google.protobuf.Timestamp end_time = 2;
+  map<string, string> metadata = 3; // Additional metadata
+}
+
+message HeartbeatEventRequest {
+  string source_id = 1; // Identifier for the source sending the heartbeat
+  google.protobuf.Timestamp timestamp = 2;
 }

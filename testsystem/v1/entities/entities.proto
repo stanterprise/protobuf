@@ -23,3 +23,12 @@ message TestSuite {
     map<string, string> metadata = 5; // Additional metadata for the test suite
     repeated TestSuite sub_suites = 6; // Nested test suites
 }
+
+message Step {
+    string id = 1;   // Unique identifier for the step
+    string title = 2; // Title of the step
+    string description = 3; // Description of the step
+    string type = 4; // Type of the step (e.g., "setup", "execution", "validation")
+    int64 duration = 5; // Estimated duration in seconds
+    map<string, string> metadata = 6; // Additional metadata for the step
+}
