@@ -53,10 +53,10 @@ message StdOutputEventRequest {
 }
 
 message SuiteBeginEventRequest {
-  testsystem.v1.entities.TestSuite suite = 3;
+  testsystem.v1.entities.TestSuite suite = 1;
 }
 message SuiteEndEventRequest {
-  testsystem.v1.entities.TestSuite suite = 3;
+  testsystem.v1.entities.TestSuite suite = 1;
 }
 
 message HeartbeatEventRequest {
