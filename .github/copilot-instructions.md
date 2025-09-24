@@ -9,7 +9,7 @@ This repository defines a **test system API** using Protocol Buffers, designed f
 ### 📁 Package Structure
 
 - `testsystem/v1/common/` - Shared types and enums
-- `testsystem/v1/entities/` - Core domain models (TestScript, TestSuite)
+- `testsystem/v1/entities/` - Core domain models (TestCase, TestSuite)
 - `testsystem/v1/events/` - Event messages for test lifecycle
 - `testsystem/v1/observer/` - gRPC service definitions
 
