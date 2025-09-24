@@ -9,9 +9,22 @@ option java_package = "com.stanterprise.testsystem.v1.observer";
 option java_multiple_files = true;
 
 service TestEventCollector {
-  rpc ReportTestStart(testsystem.v1.events.TestStartEventRequest) returns (AckResponse);
-  rpc ReportTestFinish(testsystem.v1.events.TestFinishEventRequest) returns (AckResponse);
-  rpc ReportTestStep(testsystem.v1.events.TestStepEventRequest) returns (AckResponse);
+  rpc ReportSuiteBegin(testsystem.v1.events.SuiteBeginEventRequest) returns (AckResponse);
+  rpc ReportSuiteEnd(testsystem.v1.events.SuiteEndEventRequest) returns (AckResponse);
+
+  rpc ReportTestBegin(testsystem.v1.events.TestBeginEventRequest) returns (AckResponse);
+  rpc ReportTestEnd(testsystem.v1.events.TestEndEventRequest) returns (AckResponse);
+
+  rpc ReportStepBegin(testsystem.v1.events.StepBeginEventRequest) returns (AckResponse);
+  rpc ReportStepEnd(testsystem.v1.events.StepEndEventRequest) returns (AckResponse);
+
+  rpc ReportTestFailure(testsystem.v1.events.TestFailureEventRequest) returns (AckResponse);
+
+  rpc ReportTestError(testsystem.v1.events.TestErrorEventRequest) returns (AckResponse);
+  rpc ReportStdError(testsystem.v1.events.StdErrorEventRequest) returns (AckResponse);
+  rpc ReportStdOutput(testsystem.v1.events.StdOutputEventRequest) returns (AckResponse);
+
+  rpc Heartbeat(testsystem.v1.events.HeartbeatEventRequest) returns (AckResponse);
 }
 
 message AckResponse {

@@ -2,24 +2,67 @@ syntax = "proto3";
 
 package testsystem.v1.entities;
 
+import "testsystem/v1/common/common.proto";
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/stanterprise/proto-go/testsystem/v1/entities";
 option java_package = "com.stanterprise.testsystem.v1.entities";
 option java_multiple_files = true;
 
-message TestScript {
+message TestCase {
     string id = 1;   // Unique identifier for the test script
     string name = 2; // Name of the test script
     string description = 3; // Description of the test script
-    repeated string steps = 4; // List of steps in the test script
+    repeated Step steps = 4; // List of steps in the test script
     map<string, string> metadata = 5; // Additional metadata for the test script
-    optional bool is_active = 6; // Indicates if the script is currently active or deprecated
+    testsystem.v1.common.TestStatus status = 6; // Current status of the test script
+    TestSuite parent_suite = 7; // Reference to the parent suite, if any
+}
+
+enum SuiteType {
+    ROOT = 0;
+    PROJECT = 1;
+    SUBSUITE = 2;
 }
 
 message TestSuite {
     string id = 1;   // Unique identifier for the test suite
     string name = 2; // Name of the test suite
-    repeated TestScript scripts = 3; // List of test scripts in the suite
-    string description = 4; // Optional description of the test suite
-    map<string, string> metadata = 5; // Additional metadata for the test suite
-    repeated TestSuite sub_suites = 6; // Nested test suites
+    repeated TestCase tests = 3; // List of test cases in the suite
+    repeated TestSuite sub_suites = 4; // Nested test suites
+    string description = 5; // Optional description of the test suite
+    string location = 6; // Location or path of the test suite definition
+    map<string, string> metadata = 7; // Additional metadata for the test suite
+    SuiteType type = 8; // Type of the test suite (e.g., "root", "project", "subsuite")
+    TestSuite parent_suite = 9; // Reference to the parent suite, if any
+}
+
+message Step {
+    string id = 1; // Unique identifier for the test result
+    string test_id = 2; // Reference to the test case
+    string title = 3; // Title of the test result
+    string description = 4; // Description of the step
+    google.protobuf.Timestamp start_time = 5; // Start time of the test execution
+    string type = 6; // Type of the step (e.g., "setup", "execution", "validation")
+    int64 duration = 7; // Estimated duration in seconds
+    map<string, string> metadata = 8; // Additional metadata for the step
+    string parent_step_id = 9; // Reference to the parent step for nested steps
+    repeated Step sub_steps = 10; // Nested steps
+    string worker_index = 11; // Identifier for the worker executing the step
+    testsystem.v1.common.TestStatus status = 12; // Result status (e.g., "passed", "failed", "skipped")
+    string error = 13; // Error message if the step failed
+    string location = 14; // Location in the code where the step is defined
+}
+
+message TestResult {
+    string id = 1; // Unique identifier for the test result
+    string test_id = 2; // Reference to the test case
+    string title = 3; // Title of the test result
+    testsystem.v1.common.TestStatus status = 4; // Result status (e.g., "passed", "failed", "skipped")
+    google.protobuf.Timestamp start_time = 5; // Start time of the test execution
+    repeated testsystem.v1.common.Attachment attachments = 6; // Attachments related to the test result
+    string error_message = 7; // Error message if the test failed
+    string stack_trace = 8;  // Stack trace if applicable
+    map<string, string> metadata = 9; // Additional metadata for the test result
+    repeated string errors = 11; // List of error messages if any
 }

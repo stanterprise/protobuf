@@ -4,35 +4,62 @@ package testsystem.v1.events;
 
 import "google/protobuf/timestamp.proto";
 import "testsystem/v1/common/common.proto";
+import "testsystem/v1/entities/entities.proto";
 
 option go_package = "github.com/stanterprise/proto-go/testsystem/v1/events";
 option java_package = "com.stanterprise.testsystem.v1.events";
 option java_multiple_files = true;
 
-message TestStartEventRequest {
-  string test_id = 1;
-  string test_name = 2;
-  google.protobuf.Timestamp start_time = 3;
-  map<string, string> metadata = 4; // Additional metadata
+message TestBeginEventRequest {
+  testsystem.v1.entities.TestCase test_case = 1;
 }
 
-message TestFinishEventRequest {
-  string test_id = 1;
-  testsystem.v1.common.TestStatus status = 2;
-  google.protobuf.Timestamp end_time = 3;
-  repeated testsystem.v1.common.Attachment attachments = 4;
-  string error_message = 5; // If any
-  string stack_trace = 6;   // If any
+message TestEndEventRequest {
+  testsystem.v1.entities.TestCase test_case = 1;
 }
 
-message TestStepRequest {
-  string description = 1;
+message StepBeginEventRequest {
+  testsystem.v1.entities.Step step = 1;
+}
+
+message StepEndEventRequest {
+  testsystem.v1.entities.Step step = 1;
+}
+
+message TestFailureEventRequest {
+  string test_id = 1;
+  string failure_message = 2;
+  string stack_trace = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  repeated testsystem.v1.common.Attachment attachments = 5;
+}
+message TestErrorEventRequest {
+  string test_id = 1;
+  string error_message = 2;
+  string stack_trace = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  repeated testsystem.v1.common.Attachment attachments = 5;
+}
+
+message StdErrorEventRequest {
+  string test_id = 1;
+  string message = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+message StdOutputEventRequest {
+  string test_id = 1;
+  string message = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message SuiteBeginEventRequest {
+  testsystem.v1.entities.TestSuite suite = 1;
+}
+message SuiteEndEventRequest {
+  testsystem.v1.entities.TestSuite suite = 1;
+}
+
+message HeartbeatEventRequest {
+  string source_id = 1; // Identifier for the source sending the heartbeat
   google.protobuf.Timestamp timestamp = 2;
-  testsystem.v1.common.TestStatus status = 3;
-  repeated testsystem.v1.common.Attachment attachments = 4;
-}
-
-message TestStepEventRequest {
-  string test_id = 1;
-  repeated TestStepRequest steps = 2;
 }
