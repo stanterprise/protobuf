@@ -64,6 +64,5 @@ message TestResult {
     string error_message = 7; // Error message if the test failed
     string stack_trace = 8;  // Stack trace if applicable
     map<string, string> metadata = 9; // Additional metadata for the test result
-    string error = 10; // First error message if any
     repeated string errors = 11; // List of error messages if any
 }
