@@ -4,40 +4,26 @@ package testsystem.v1.events;
 
 import "google/protobuf/timestamp.proto";
 import "testsystem/v1/common/common.proto";
+import "testsystem/v1/entities/entities.proto";
 
 option go_package = "github.com/stanterprise/proto-go/testsystem/v1/events";
 option java_package = "com.stanterprise.testsystem.v1.events";
 option java_multiple_files = true;
 
 message TestBeginEventRequest {
-  string test_id = 1;
-  string test_name = 2;
-  google.protobuf.Timestamp start_time = 3;
-  map<string, string> metadata = 4; // Additional metadata
+  testsystem.v1.entities.TestCase test_case = 1;
 }
 
 message TestEndEventRequest {
-  string test_id = 1;
-  testsystem.v1.common.TestStatus status = 2;
-  google.protobuf.Timestamp end_time = 3;
-  repeated testsystem.v1.common.Attachment attachments = 4;
-  string error_message = 5; // If any
-  string stack_trace = 6;   // If any
+  testsystem.v1.entities.TestCase test_case = 1;
 }
 
 message StepBeginEventRequest {
-  string description = 1;
-  google.protobuf.Timestamp timestamp = 2;
-  testsystem.v1.common.TestStatus status = 3;
-  repeated testsystem.v1.common.Attachment attachments = 4;
+  testsystem.v1.entities.Step step = 1;
 }
 
 message StepEndEventRequest {
-  google.protobuf.Timestamp timestamp = 2;
-  testsystem.v1.common.TestStatus status = 3;
-  repeated testsystem.v1.common.Attachment attachments = 4;
-  string error_message = 5; // If any
-  string stack_trace = 6;   // If any
+  testsystem.v1.entities.Step step = 1;
 }
 
 message TestFailureEventRequest {
@@ -67,15 +53,10 @@ message StdOutputEventRequest {
 }
 
 message SuiteBeginEventRequest {
-  string suite_id = 1;
-  string suite_name = 2;
-  google.protobuf.Timestamp start_time = 3;
-  map<string, string> metadata = 4; // Additional metadata
+  testsystem.v1.entities.TestSuite suite = 3;
 }
 message SuiteEndEventRequest {
-  string suite_id = 1;
-  google.protobuf.Timestamp end_time = 2;
-  map<string, string> metadata = 3; // Additional metadata
+  testsystem.v1.entities.TestSuite suite = 3;
 }
 
 message HeartbeatEventRequest {
