@@ -23,15 +23,17 @@ message TestCaseSpec {
 message TestCaseRun {
     string id = 1; // Unique identifier for the test result
     string test_id = 2; // Reference to the test case
-    string title = 3; // Title of the test result
-    testsystem.v1.common.TestStatus status = 4; // Result status (e.g., "passed", "failed", "skipped")
-    google.protobuf.Timestamp start_time = 5; // Start time of the test execution
-    repeated testsystem.v1.common.Attachment attachments = 6; // Attachments related to the test result
-    string error_message = 7; // Error message if the test failed
-    string stack_trace = 8;  // Stack trace if applicable
-    map<string, string> metadata = 9; // Additional metadata for the test result
-    repeated string errors = 11; // List of error messages if any
-    repeated string actual_tags = 12; // Actual tags associated with the test case during execution
+    string run_id = 3; // Identifier for the global test run this test belongs to
+    string test_suite_run_id = 4; // Reference to the test suite run this test belongs to
+    string title = 5; // Title of the test result
+    testsystem.v1.common.TestStatus status = 6; // Result status (e.g., "passed", "failed", "skipped")
+    google.protobuf.Timestamp start_time = 7; // Start time of the test execution
+    repeated testsystem.v1.common.Attachment attachments = 8; // Attachments related to the test result
+    string error_message = 9; // Error message if the test failed
+    string stack_trace = 10;  // Stack trace if applicable
+    map<string, string> metadata = 11; // Additional metadata for the test result
+    repeated string errors = 12; // List of error messages if any
+    repeated string actual_tags = 13; // Actual tags associated with the test case during execution
 }
 
 message StepRun {
