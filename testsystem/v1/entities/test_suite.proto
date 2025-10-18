@@ -25,8 +25,8 @@ message TestSuiteRun {
 
 message TestSuiteSpec {
     string id = 1;   // Unique identifier for the test suite
-    string run_id = 2; // Identifier for the test run this suite belongs to
-    string name = 3; // Name of the test suite
+    string name = 2; // Name of the test suite
+    string run_id = 3; // Identifier for the test run this suite belongs to
     repeated string test_spec_ids = 4; // List of test cases in the suite
     repeated string sub_suite_ids = 5; // Nested test suites
     string description = 6; // Optional description of the test suite
