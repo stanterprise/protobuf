@@ -48,8 +48,8 @@ message StepRun {
     map<string, string> metadata = 9; // Additional metadata for the step
     string parent_step_id = 10; // Reference to the parent step for nested steps, if any
     string worker_index = 11; // Identifier for the worker executing the step
-    testsystem.v1.common.TestStatus status = 13; // Result status (e.g., "passed", "failed", "skipped")
-    string error = 14; // Error message if the step failed
-    repeated string errors = 15; // List of all error messages observed during step execution, if any
-    string location = 16; // Location in the code where the step is defined
+    testsystem.v1.common.TestStatus status = 12; // Result status (e.g., "passed", "failed", "skipped")
+    string error = 13; // Error message if the step failed
+    repeated string errors = 14; // List of all error messages observed during step execution, if any
+    string location = 15; // Location in the code where the step is defined
 }
