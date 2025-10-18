@@ -4,26 +4,27 @@ package testsystem.v1.events;
 
 import "google/protobuf/timestamp.proto";
 import "testsystem/v1/common/common.proto";
-import "testsystem/v1/entities/entities.proto";
+import "testsystem/v1/entities/test_case.proto";
+import "testsystem/v1/entities/test_suite.proto";
 
 option go_package = "github.com/stanterprise/proto-go/testsystem/v1/events";
 option java_package = "com.stanterprise.testsystem.v1.events";
 option java_multiple_files = true;
 
 message TestBeginEventRequest {
-  testsystem.v1.entities.TestCase test_case = 1;
+  testsystem.v1.entities.TestCaseRun test_case = 1;
 }
 
 message TestEndEventRequest {
-  testsystem.v1.entities.TestCase test_case = 1;
+  testsystem.v1.entities.TestCaseRun test_case = 1;
 }
 
 message StepBeginEventRequest {
-  testsystem.v1.entities.Step step = 1;
+  testsystem.v1.entities.StepRun step = 1;
 }
 
 message StepEndEventRequest {
-  testsystem.v1.entities.Step step = 1;
+  testsystem.v1.entities.StepRun step = 1;
 }
 
 message TestFailureEventRequest {
@@ -53,10 +54,10 @@ message StdOutputEventRequest {
 }
 
 message SuiteBeginEventRequest {
-  testsystem.v1.entities.TestSuite suite = 1;
+  testsystem.v1.entities.TestSuiteRun suite = 1;
 }
 message SuiteEndEventRequest {
-  testsystem.v1.entities.TestSuite suite = 1;
+  testsystem.v1.entities.TestSuiteRun suite = 1;
 }
 
 message HeartbeatEventRequest {

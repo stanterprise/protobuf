@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package testsystem.v1.entities;
+
+import "testsystem/v1/common/common.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/stanterprise/proto-go/testsystem/v1/entities";
+option java_package = "com.stanterprise.testsystem.v1.entities";
+option java_multiple_files = true;
+
+message TestSuiteRun {
+    string id = 1; // Unique identifier for the test run
+    string name = 2; // Name of the test run
+    string description = 3; // Description of the test run
+    google.protobuf.Timestamp start_time = 4; // Start time of the test run
+    google.protobuf.Timestamp end_time = 5; // End time of the test run
+    google.protobuf.Duration duration = 6; // Duration of the test run
+    testsystem.v1.common.TestStatus status = 7; // Overall status of the test run
+    map<string, string> metadata = 8; // Additional metadata for the test run
+    string test_suite_spec_id = 9; // Identifier for the test suite being run
+    string initiated_by = 10; // Identifier for who initiated the test run
+}
+
+message TestSuiteSpec {
+    string id = 1;   // Unique identifier for the test suite
+    string name = 2; // Name of the test suite
+    string run_id = 3; // Identifier for the test run this suite belongs to
+    repeated string test_spec_ids = 4; // List of test cases in the suite
+    repeated string sub_suite_ids = 5; // Nested test suites
+    string description = 6; // Optional description of the test suite
+    string location = 7; // Location or path of the test suite definition
+    map<string, string> metadata = 8; // Additional metadata for the test suite
+    SuiteType type = 9; // Type of the test suite (e.g., "root", "project", "subsuite")
+    string parent_suite_id = 10; // Reference to the parent suite, if any
+    string author = 11; // Author of the test suite
+    string owner = 12; // Team or individual responsible for the test suite
+}
+
+enum SuiteType {
+    ROOT = 0;
+    PROJECT = 1;
+    SUBSUITE = 2;
+}
