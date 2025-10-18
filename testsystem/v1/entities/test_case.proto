@@ -47,7 +47,7 @@ message StepRun {
     string type = 8; // Type of the step (e.g., "setup", "execution", "validation")
     map<string, string> metadata = 9; // Additional metadata for the step
     string parent_step_id = 10; // Reference to the parent step for nested steps, if any
-    string worker_index = 12; // Identifier for the worker executing the step
+    string worker_index = 11; // Identifier for the worker executing the step
     testsystem.v1.common.TestStatus status = 13; // Result status (e.g., "passed", "failed", "skipped")
     string error = 14; // Error message if the step failed
     repeated string errors = 15; // List of all error messages observed during step execution, if any
