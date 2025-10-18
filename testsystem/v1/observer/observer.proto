@@ -19,7 +19,6 @@ service TestEventCollector {
   rpc ReportStepEnd(testsystem.v1.events.StepEndEventRequest) returns (AckResponse);
 
   rpc ReportTestFailure(testsystem.v1.events.TestFailureEventRequest) returns (AckResponse);
-
   rpc ReportTestError(testsystem.v1.events.TestErrorEventRequest) returns (AckResponse);
   rpc ReportStdError(testsystem.v1.events.StdErrorEventRequest) returns (AckResponse);
   rpc ReportStdOutput(testsystem.v1.events.StdOutputEventRequest) returns (AckResponse);
