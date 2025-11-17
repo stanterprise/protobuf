@@ -46,11 +46,13 @@ message StdErrorEventRequest {
   string test_id = 1;
   string message = 2;
   google.protobuf.Timestamp timestamp = 3;
+  string test_case_run_id = 4; // Reference to the specific test case run
 }
 message StdOutputEventRequest {
   string test_id = 1;
   string message = 2;
   google.protobuf.Timestamp timestamp = 3;
+  string test_case_run_id = 4; // Reference to the specific test case run
 }
 
 message SuiteBeginEventRequest {

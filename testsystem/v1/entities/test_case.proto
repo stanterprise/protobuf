@@ -34,6 +34,10 @@ message TestCaseRun {
     map<string, string> metadata = 11; // Additional metadata for the test result
     repeated string errors = 12; // List of error messages if any
     repeated string actual_tags = 13; // Actual tags associated with the test case during execution
+    google.protobuf.Duration duration = 14; // Duration of the test execution
+    int32 retry_count = 15; // Total number of retry attempts allowed for this test
+    int32 retry_index = 16; // Current retry attempt index (0 for first attempt)
+    int32 timeout = 17; // Timeout in milliseconds for this test
 }
 
 message StepRun {
@@ -52,4 +56,5 @@ message StepRun {
     string error = 13; // Error message if the step failed
     repeated string errors = 14; // List of all error messages observed during step execution, if any
     string location = 15; // Location in the code where the step is defined
+    string category = 16; // Category of step (e.g., "hook", "fixture", "test.step")
 }

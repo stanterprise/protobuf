@@ -21,6 +21,7 @@ message TestSuiteRun {
     map<string, string> metadata = 8; // Additional metadata for the test run
     string test_suite_spec_id = 9; // Identifier for the test suite being run
     string initiated_by = 10; // Identifier for who initiated the test run
+    string project_name = 11; // Project name (e.g., browser/device configuration for Playwright)
 }
 
 message TestSuiteSpec {
@@ -36,6 +37,7 @@ message TestSuiteSpec {
     string parent_suite_id = 10; // Reference to the parent suite, if any
     string author = 11; // Author of the test suite
     string owner = 12; // Team or individual responsible for the test suite
+    string project = 13; // Project identifier (e.g., browser/device configuration for Playwright)
 }
 
 enum SuiteType {

@@ -13,6 +13,8 @@ enum TestStatus {
   FAILED = 2;
   SKIPPED = 3;
   BROKEN = 4;
+  TIMEDOUT = 5;    // Test execution exceeded timeout
+  INTERRUPTED = 6; // Test execution was interrupted
 }
 
 // Message for attachments
