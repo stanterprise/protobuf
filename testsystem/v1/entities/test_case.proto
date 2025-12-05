@@ -10,34 +10,26 @@ option go_package = "github.com/stanterprise/proto-go/testsystem/v1/entities";
 option java_package = "com.stanterprise.testsystem.v1.entities";
 option java_multiple_files = true;
 
-message TestCaseSpec {
-    string id = 1;   // Unique identifier for the test script
-    string name = 2; // Name of the test script
-    string description = 3; // Description of the test script
-    map<string, string> metadata = 4; // Additional metadata for the test script
-    testsystem.v1.common.TestStatus status = 5; // Current status of the test script
-    string parent_suite_id = 6; // Reference to the parent suite, if any
-    repeated string tags = 7; // Tags associated with the test case
-}
-
 message TestCaseRun {
     string id = 1; // Unique identifier for the test result
-    string test_id = 2; // Reference to the test case
-    string run_id = 3; // Identifier for the global test run this test belongs to
-    string test_suite_run_id = 4; // Reference to the test suite run this test belongs to
-    string title = 5; // Title of the test result
+    string name = 2; // Name/title of the test case
+    string description = 3; // Description of the test case
+    string run_id = 4; // Identifier for the global test run this test belongs to
+    string test_suite_run_id = 5; // Reference to the test suite run this test belongs to
     testsystem.v1.common.TestStatus status = 6; // Result status (e.g., "passed", "failed", "skipped")
     google.protobuf.Timestamp start_time = 7; // Start time of the test execution
-    repeated testsystem.v1.common.Attachment attachments = 8; // Attachments related to the test result
-    string error_message = 9; // Error message if the test failed
-    string stack_trace = 10;  // Stack trace if applicable
-    map<string, string> metadata = 11; // Additional metadata for the test result
-    repeated string errors = 12; // List of error messages if any
-    repeated string actual_tags = 13; // Actual tags associated with the test case during execution
-    google.protobuf.Duration duration = 14; // Duration of the test execution
-    int32 retry_count = 15; // Total number of retry attempts allowed for this test
-    int32 retry_index = 16; // Current retry attempt index (0 for first attempt)
-    int32 timeout = 17; // Timeout in milliseconds for this test
+    google.protobuf.Timestamp end_time = 8; // End time of the test execution
+    google.protobuf.Duration duration = 9; // Duration of the test execution
+    repeated testsystem.v1.common.Attachment attachments = 10; // Attachments related to the test result
+    string error_message = 11; // Error message if the test failed
+    string stack_trace = 12;  // Stack trace if applicable
+    repeated string errors = 13; // List of error messages if any
+    map<string, string> metadata = 14; // Additional metadata for the test result
+    repeated string tags = 15; // Tags associated with the test case
+    string location = 16; // Location in the code where the test is defined
+    int32 retry_count = 17; // Total number of retry attempts allowed for this test
+    int32 retry_index = 18; // Current retry attempt index (0 for first attempt)
+    int32 timeout = 19; // Timeout in milliseconds for this test
 }
 
 message StepRun {

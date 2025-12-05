@@ -1,48 +1,58 @@
 # Schema Analysis Summary
 
 ## Purpose
+
 This document provides an analysis of the protobuf schema changes made to support Playwright and other major testing frameworks.
 
 ## Changes Overview
 
 ### 1. Enhanced TestStatus Enum
+
 **File:** `testsystem/v1/common/common.proto`
 
 **Changes:**
+
 - Added `TIMEDOUT = 5` - for tests that exceed timeout limits
 - Added `INTERRUPTED = 6` - for tests interrupted during execution
 
 **Impact:**
+
 - Enables accurate status reporting from Playwright tests
 - Compatible with Playwright's status values: 'passed', 'failed', 'timedOut', 'skipped', 'interrupted'
 - Backward compatible - old clients will treat unknown values as UNKNOWN
 
 ### 2. Enhanced TestCaseRun Message
+
 **File:** `testsystem/v1/entities/test_case.proto`
 
 **Changes:**
+
 ```protobuf
-google.protobuf.Duration duration = 14;  // Duration of the test execution
-int32 retry_count = 15;                  // Total number of retry attempts allowed
-int32 retry_index = 16;                  // Current retry attempt index (0 for first)
-int32 timeout = 17;                      // Timeout in milliseconds
+google.protobuf.Duration duration = 9;   // Duration of the test execution
+int32 retry_count = 17;                  // Total number of retry attempts allowed
+int32 retry_index = 18;                  // Current retry attempt index (0 for first)
+int32 timeout = 19;                      // Timeout in milliseconds
 ```
 
 **Impact:**
-- `duration`: Captures test execution time (previously only start_time was available)
+
+- `duration`: Captures test execution time (complete with start_time and end_time)
 - `retry_count` & `retry_index`: Supports Playwright's test retry mechanism
 - `timeout`: Records timeout configuration per test
-- All fields use sequential numbers (14-17) to maintain compatibility
+- Fields are distributed throughout the message structure for logical grouping
 
 ### 3. Enhanced StepRun Message
+
 **File:** `testsystem/v1/entities/test_case.proto`
 
 **Changes:**
+
 ```protobuf
 string category = 16;  // Category of step (e.g., "hook", "fixture", "test.step")
 ```
 
 **Impact:**
+
 - Enables differentiation between different step types in Playwright:
   - `hook` - beforeEach, afterEach, beforeAll, afterAll
   - `fixture` - fixture setup/teardown
@@ -51,42 +61,38 @@ string category = 16;  // Category of step (e.g., "hook", "fixture", "test.step"
   - `pw:api` - Playwright API calls
 - Helps with debugging and understanding test execution flow
 
-### 4. Enhanced TestSuiteSpec Message
+### 4. Enhanced TestSuiteRun Message
+
 **File:** `testsystem/v1/entities/test_suite.proto`
 
 **Changes:**
+
 ```protobuf
-string project = 13;  // Project identifier (e.g., browser/device configuration)
+SuiteType type = 11;     // Type of the test suite (ROOT, PROJECT, SUBSUITE)
+string project = 15;     // Project identifier (e.g., browser/device configuration)
 ```
 
 **Impact:**
-- Supports Playwright's project concept (different browser/device configurations)
+
+- `type` field enables hierarchical suite organization (ROOT → PROJECT → SUBSUITE)
+- `project` field supports Playwright's project concept (different browser/device configurations)
 - Enables tracking which configuration a suite belongs to
 - Example values: 'chromium', 'firefox', 'webkit', 'mobile-chrome', 'tablet-safari'
-
-### 5. Enhanced TestSuiteRun Message
-**File:** `testsystem/v1/entities/test_suite.proto`
-
-**Changes:**
-```protobuf
-string project_name = 11;  // Project name (e.g., browser/device configuration)
-```
-
-**Impact:**
-- Tracks which project a test run belongs to
 - Enables filtering and grouping results by browser/configuration
-- Complements TestSuiteSpec.project field
 
-### 6. Enhanced Output Event Messages
+### 5. Enhanced Output Event Messages
+
 **File:** `testsystem/v1/events/events.proto`
 
 **Changes:**
 Both `StdOutputEventRequest` and `StdErrorEventRequest` received:
+
 ```protobuf
 string test_case_run_id = 4;  // Reference to the specific test case run
 ```
 
 **Impact:**
+
 - Links stdout/stderr output to specific test case runs
 - Critical for parallel test execution where multiple tests run simultaneously
 - Enables proper output association during test retries
@@ -94,17 +100,18 @@ string test_case_run_id = 4;  // Reference to the specific test case run
 
 ## Framework Compatibility Matrix
 
-| Feature | Playwright | Jest | Mocha | Cypress | Status |
-|---------|-----------|------|-------|---------|--------|
-| Test Statuses | ✅ Full | ✅ Full | ✅ Full | ✅ Full | Complete |
-| Test Duration | ✅ Full | ✅ Full | ✅ Full | ✅ Full | Complete |
-| Test Retries | ✅ Full | ⚠️ Partial | ⚠️ Partial | ✅ Full | Complete |
-| Step Tracking | ✅ Full | ❌ Limited | ❌ Limited | ✅ Full | Complete |
-| Step Categories | ✅ Full | ❌ N/A | ❌ N/A | ⚠️ Partial | Complete |
-| Project/Config | ✅ Full | ⚠️ Partial | ⚠️ Partial | ⚠️ Partial | Complete |
-| Output Linking | ✅ Full | ✅ Full | ✅ Full | ✅ Full | Complete |
+| Feature         | Playwright | Jest       | Mocha      | Cypress    | Status   |
+| --------------- | ---------- | ---------- | ---------- | ---------- | -------- |
+| Test Statuses   | ✅ Full    | ✅ Full    | ✅ Full    | ✅ Full    | Complete |
+| Test Duration   | ✅ Full    | ✅ Full    | ✅ Full    | ✅ Full    | Complete |
+| Test Retries    | ✅ Full    | ⚠️ Partial | ⚠️ Partial | ✅ Full    | Complete |
+| Step Tracking   | ✅ Full    | ❌ Limited | ❌ Limited | ✅ Full    | Complete |
+| Step Categories | ✅ Full    | ❌ N/A     | ❌ N/A     | ⚠️ Partial | Complete |
+| Project/Config  | ✅ Full    | ⚠️ Partial | ⚠️ Partial | ⚠️ Partial | Complete |
+| Output Linking  | ✅ Full    | ✅ Full    | ✅ Full    | ✅ Full    | Complete |
 
 Legend:
+
 - ✅ Full: Complete native support
 - ⚠️ Partial: Supported via workarounds or limited functionality
 - ❌ Limited/N/A: Not applicable or very limited support
@@ -129,14 +136,13 @@ All changes maintain full backward compatibility:
 
 Current field number ranges by message:
 
-| Message | Used Range | Available Range | Notes |
-|---------|------------|-----------------|-------|
-| TestCaseRun | 1-17 | 18+ | Added 14-17 for Playwright |
-| StepRun | 1-16 | 17+ | Added 16 for category |
-| TestSuiteSpec | 1-13 | 14+ | Added 13 for project |
-| TestSuiteRun | 1-11 | 12+ | Added 11 for project_name |
-| StdOutputEventRequest | 1-4 | 5+ | Added 4 for test_case_run_id |
-| StdErrorEventRequest | 1-4 | 5+ | Added 4 for test_case_run_id |
+| Message               | Used Range | Available Range | Notes                                    |
+| --------------------- | ---------- | --------------- | ---------------------------------------- |
+| TestCaseRun           | 1-19       | 20+             | Fields 9, 17-19 for Playwright features  |
+| StepRun               | 1-16       | 17+             | Field 16 for category                    |
+| TestSuiteRun          | 1-20       | 21+             | Fields 11, 15 for suite type and project |
+| StdOutputEventRequest | 1-4        | 5+              | Field 4 for test_case_run_id             |
+| StdErrorEventRequest  | 1-4        | 5+              | Field 4 for test_case_run_id             |
 
 ## Migration Guide
 
@@ -155,7 +161,9 @@ Current field number ranges by message:
 ## Testing Framework Support
 
 ### Playwright
+
 **Status**: ✅ **Fully Supported**
+
 - All Playwright reporter API features mapped
 - Complete test lifecycle coverage
 - Full step tracking with categories
@@ -163,7 +171,9 @@ Current field number ranges by message:
 - Retry mechanism fully supported
 
 ### Jest
+
 **Status**: ✅ **Well Supported**
+
 - Test lifecycle events covered
 - Status mapping complete
 - Duration tracking available
@@ -171,7 +181,9 @@ Current field number ranges by message:
 - Output can be linked via test context
 
 ### Mocha
+
 **Status**: ✅ **Well Supported**
+
 - Test lifecycle events covered
 - Status mapping (pass/fail/pending → PASSED/FAILED/SKIPPED)
 - Hook tracking via step events
@@ -179,7 +191,9 @@ Current field number ranges by message:
 - Metadata via test context
 
 ### Cypress
+
 **Status**: ✅ **Well Supported**
+
 - Test lifecycle through plugin events
 - Command tracking via step events
 - Retry support (experimental)
@@ -222,6 +236,7 @@ echo $?  # Should output 0
 ## Conclusion
 
 The schema enhancements successfully address the requirements for Playwright compatibility while maintaining:
+
 - Full backward compatibility
 - Clean, extensible design
 - Support for other major testing frameworks

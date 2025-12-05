@@ -47,10 +47,10 @@ testsystem/v1/
 
 ### Key Messages
 
-- **TestCaseRun**: Represents a single test execution with status, duration, retries, and attachments
-- **StepRun**: Represents a test step with category (hook, fixture, test.step), duration, and status
-- **TestSuiteRun**: Represents a test suite execution with project information and aggregated status
-- **Attachment**: Test artifacts (screenshots, videos, traces) with inline or URI-based storage
+- **TestCaseRun**: Represents a single test execution with status, duration, retries, timeout, and attachments (19 fields)
+- **StepRun**: Represents a test step with category (hook, fixture, test.step), duration, status, and error tracking (16 fields)
+- **TestSuiteRun**: Represents a test suite execution with type (ROOT/PROJECT/SUBSUITE), project information, and aggregated results (20 fields)
+- **Attachment**: Test artifacts (screenshots, videos, traces) with inline bytes or URI-based storage
 
 ### Status Values
 
@@ -66,6 +66,7 @@ testsystem/v1/
 ### ✅ Playwright (Fully Supported)
 
 Complete integration with Playwright's reporter API:
+
 - All test statuses (including timedOut, interrupted)
 - Test retries and timeout tracking
 - Step categories (hooks, fixtures, test.step)
@@ -90,6 +91,7 @@ cd protobuf
 ### 2. Generate Code for Your Language
 
 #### Go
+
 ```bash
 protoc --proto_path=. \
   --go_out=gen/go \
@@ -98,6 +100,7 @@ protoc --proto_path=. \
 ```
 
 #### TypeScript/JavaScript
+
 ```bash
 protoc --proto_path=. \
   --js_out=import_style=commonjs:gen/js \
@@ -106,6 +109,7 @@ protoc --proto_path=. \
 ```
 
 #### Python
+
 ```bash
 python -m grpc_tools.protoc --proto_path=. \
   --python_out=gen/python \
@@ -137,24 +141,31 @@ service TestEventCollector {
 }
 ```
 
-## Recent Enhancements
+## Key Features
 
-### Playwright Compatibility (v0.0.8)
+### Test Lifecycle Management
 
-Added comprehensive support for Playwright testing framework:
+- Complete test execution tracking from suite begin to suite end
+- Hierarchical test organization (ROOT → PROJECT → SUBSUITE)
+- Support for test retries and timeout configuration
+- Detailed step tracking with categories (hooks, fixtures, test.step)
 
-- **Enhanced TestStatus**: Added `TIMEDOUT` and `INTERRUPTED` statuses
-- **Test Duration**: Added duration field to `TestCaseRun`
-- **Retry Support**: Added retry_count and retry_index fields
-- **Step Categories**: Added category field to distinguish step types
-- **Project Tracking**: Added project fields for browser/device configurations
-- **Output Linking**: Enhanced stdout/stderr events with test_case_run_id
+### Framework Integration
 
-All changes maintain full backward compatibility. See [SCHEMA_ANALYSIS.md](SCHEMA_ANALYSIS.md) for details.
+- **Playwright**: Full native support for all reporter API features
+- **Jest/Mocha/Cypress**: Well supported with comprehensive event mapping
+- **Universal Design**: Compatible with any test framework through flexible event model
+
+### Attachment Handling
+
+- Small files: Inline `bytes` payload for quick access
+- Large files: `uri` field for external storage (S3, GCS, etc.)
+- Support for screenshots, videos, traces, logs, and custom artifacts
 
 ## Backward Compatibility
 
 ✅ **Guaranteed Backward Compatibility**
+
 - New fields use higher field numbers
 - All new fields are optional
 - No existing fields modified or removed
@@ -189,6 +200,7 @@ See [LICENSE](LICENSE) file for details.
 ## Support
 
 For issues or questions:
+
 - Open an issue on GitHub
 - Review existing documentation
 - Check example implementations

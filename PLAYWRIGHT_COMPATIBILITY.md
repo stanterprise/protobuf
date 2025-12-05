@@ -11,10 +11,12 @@ The protobuf messages in this repository define an observer-based test event col
 ### 1. TestStatus Enum (common.proto)
 
 **Added Status Values:**
+
 - `TIMEDOUT = 5` - Test execution exceeded configured timeout
 - `INTERRUPTED = 6` - Test execution was interrupted (e.g., user cancellation)
 
 **Mapping to Playwright:**
+
 - `PASSED` ← 'passed'
 - `FAILED` ← 'failed'
 - `SKIPPED` ← 'skipped'
@@ -24,16 +26,18 @@ The protobuf messages in this repository define an observer-based test event col
 
 ### 2. TestCaseRun Message (test_case.proto)
 
-**New Fields:**
+**Fields for Playwright Integration:**
 
-| Field | Type | Number | Description | Playwright Mapping |
-|-------|------|--------|-------------|-------------------|
-| `duration` | google.protobuf.Duration | 14 | Test execution duration | `result.duration` |
-| `retry_count` | int32 | 15 | Total retry attempts allowed | `test.retries` |
-| `retry_index` | int32 | 16 | Current retry attempt (0-based) | `result.retry` |
-| `timeout` | int32 | 17 | Timeout in milliseconds | `test.timeout` |
+| Field         | Type                     | Number | Description                     | Playwright Mapping         |
+| ------------- | ------------------------ | ------ | ------------------------------- | -------------------------- |
+| `status`      | TestStatus               | 6      | Result status                   | `mapStatus(result.status)` |
+| `duration`    | google.protobuf.Duration | 9      | Test execution duration         | `result.duration`          |
+| `retry_count` | int32                    | 17     | Total retry attempts allowed    | `test.retries`             |
+| `retry_index` | int32                    | 18     | Current retry attempt (0-based) | `result.retry`             |
+| `timeout`     | int32                    | 19     | Timeout in milliseconds         | `test.timeout`             |
 
 **Usage Example:**
+
 ```javascript
 // In Playwright reporter onTestEnd()
 const testCaseRun = {
@@ -52,13 +56,15 @@ const testCaseRun = {
 
 ### 3. StepRun Message (test_case.proto)
 
-**New Fields:**
+**Fields for Playwright Integration:**
 
-| Field | Type | Number | Description | Playwright Mapping |
-|-------|------|--------|-------------|-------------------|
-| `category` | string | 16 | Step category/type | `step.category` |
+| Field      | Type       | Number | Description        | Playwright Mapping                 |
+| ---------- | ---------- | ------ | ------------------ | ---------------------------------- |
+| `status`   | TestStatus | 12     | Result status      | `step.error ? 'FAILED' : 'PASSED'` |
+| `category` | string     | 16     | Step category/type | `step.category`                    |
 
 **Playwright Step Categories:**
+
 - `hook` - beforeEach, afterEach, beforeAll, afterAll
 - `fixture` - Fixture setup/teardown
 - `test.step` - Explicit test.step() calls
@@ -66,6 +72,7 @@ const testCaseRun = {
 - `pw:api` - Playwright API calls (locator, click, etc.)
 
 **Usage Example:**
+
 ```javascript
 // In Playwright reporter onStepEnd()
 const stepRun = {
@@ -74,40 +81,43 @@ const stepRun = {
   title: step.title,
   category: step.category,
   duration: { seconds: Math.floor(step.duration / 1000) },
-  status: step.error ? 'FAILED' : 'PASSED',
+  status: step.error ? "FAILED" : "PASSED",
   // ... other fields
 };
 ```
 
-### 4. TestSuiteSpec & TestSuiteRun Messages (test_suite.proto)
+### 4. TestSuiteRun Message (test_suite.proto)
 
-**New Fields:**
+**Fields for Playwright Integration:**
 
-| Message | Field | Type | Number | Description | Playwright Mapping |
-|---------|-------|------|--------|-------------|-------------------|
-| TestSuiteSpec | `project` | string | 13 | Project identifier | `test.parent.project().name` |
-| TestSuiteRun | `project_name` | string | 11 | Project name | `suite.project().name` |
+| Field     | Type      | Number | Description                          | Playwright Mapping       |
+| --------- | --------- | ------ | ------------------------------------ | ------------------------ |
+| `type`    | SuiteType | 11     | Suite type (ROOT, PROJECT, SUBSUITE) | Based on suite hierarchy |
+| `project` | string    | 15     | Project identifier                   | `suite.project().name`   |
 
 **Playwright Projects:**
 Projects in Playwright define different test configurations (browsers, devices, viewports):
+
 ```javascript
 // playwright.config.ts
 export default {
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'mobile', use: { ...devices['iPhone 13'] } },
-  ]
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+    { name: "mobile", use: { ...devices["iPhone 13"] } },
+  ],
 };
 ```
 
 **Usage Example:**
+
 ```javascript
 // In Playwright reporter onBegin()
 const testSuiteRun = {
   id: generateId(),
   name: suite.title,
-  project_name: suite.project().name, // 'chromium', 'firefox', etc.
+  project: suite.project().name, // 'chromium', 'firefox', etc.
+  type: "PROJECT", // or 'ROOT' for root suite
   start_time: { seconds: Math.floor(Date.now() / 1000) },
   // ... other fields
 };
@@ -119,24 +129,26 @@ const testSuiteRun = {
 
 Both `StdOutputEventRequest` and `StdErrorEventRequest` now include:
 
-| Field | Type | Number | Description |
-|-------|------|--------|-------------|
-| `test_case_run_id` | string | 4 | Links output to specific test run |
+| Field              | Type   | Number | Description                       |
+| ------------------ | ------ | ------ | --------------------------------- |
+| `test_case_run_id` | string | 4      | Links output to specific test run |
 
 **Rationale:**
 Playwright can emit stdout/stderr during test execution. This field enables proper association of console output with the specific test run that generated it, which is crucial when:
+
 - Tests run in parallel
 - Tests are retried
 - Multiple test runs occur in the same suite
 
 **Usage Example:**
+
 ```javascript
 // Capture stdout during test execution
 const stdOutput = {
   test_id: test.id,
   test_case_run_id: currentTestCaseRunId,
   message: consoleMessage.text(),
-  timestamp: { seconds: Math.floor(Date.now() / 1000) }
+  timestamp: { seconds: Math.floor(Date.now() / 1000) },
 };
 ```
 
@@ -157,7 +169,7 @@ class ObserverReporter {
     for (const project of config.projects) {
       const suiteRun = {
         id: generateId(),
-        name: suite.title || 'Root Suite',
+        name: suite.title || "Root Suite",
         project_name: project.name,
         start_time: timestampNow(),
       };
@@ -199,7 +211,7 @@ class ObserverReporter {
       title: step.title,
       category: step.category,
       duration: durationFromMs(step.duration),
-      status: step.error ? 'FAILED' : 'PASSED',
+      status: step.error ? "FAILED" : "PASSED",
       error: step.error?.message,
     };
     await this.client.ReportStepEnd({ step: stepRun });
@@ -214,7 +226,7 @@ class ObserverReporter {
       duration: durationFromMs(result.duration),
       error_message: result.error?.message,
       stack_trace: result.error?.stack,
-      errors: result.errors.map(e => e.message),
+      errors: result.errors.map((e) => e.message),
       attachments: await this.mapAttachments(result.attachments),
     };
     await this.client.ReportTestEnd({ test_case: testCaseRun });
@@ -225,10 +237,10 @@ class ObserverReporter {
     for (const [projectName, suiteRunId] of this.suiteRunMap) {
       const suiteRun = {
         id: suiteRunId,
-        name: 'Root Suite',
+        name: "Root Suite",
         project_name: projectName,
         end_time: timestampNow(),
-        status: result.status === 'passed' ? 'PASSED' : 'FAILED',
+        status: result.status === "passed" ? "PASSED" : "FAILED",
       };
       await this.client.ReportSuiteEnd({ suite: suiteRun });
     }
@@ -236,22 +248,24 @@ class ObserverReporter {
 
   mapStatus(playwrightStatus) {
     const statusMap = {
-      'passed': 'PASSED',
-      'failed': 'FAILED',
-      'timedOut': 'TIMEDOUT',
-      'skipped': 'SKIPPED',
-      'interrupted': 'INTERRUPTED',
+      passed: "PASSED",
+      failed: "FAILED",
+      timedOut: "TIMEDOUT",
+      skipped: "SKIPPED",
+      interrupted: "INTERRUPTED",
     };
-    return statusMap[playwrightStatus] || 'UNKNOWN';
+    return statusMap[playwrightStatus] || "UNKNOWN";
   }
 
   async mapAttachments(attachments) {
-    return Promise.all(attachments.map(async att => ({
-      name: att.name,
-      mime_type: att.contentType,
-      // Use content for small attachments, uri for large ones
-      ...(att.body ? { content: att.body } : { uri: att.path })
-    })));
+    return Promise.all(
+      attachments.map(async (att) => ({
+        name: att.name,
+        mime_type: att.contentType,
+        // Use content for small attachments, uri for large ones
+        ...(att.body ? { content: att.body } : { uri: att.path }),
+      }))
+    );
   }
 }
 ```
