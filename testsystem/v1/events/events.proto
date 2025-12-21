@@ -33,6 +33,7 @@ message TestFailureEventRequest {
   string stack_trace = 3;
   google.protobuf.Timestamp timestamp = 4;
   repeated testsystem.v1.common.Attachment attachments = 5;
+  string run_id = 6;
 }
 message TestErrorEventRequest {
   string test_id = 1;
@@ -40,6 +41,7 @@ message TestErrorEventRequest {
   string stack_trace = 3;
   google.protobuf.Timestamp timestamp = 4;
   repeated testsystem.v1.common.Attachment attachments = 5;
+  string run_id = 6;
 }
 
 message StdErrorEventRequest {
@@ -47,12 +49,14 @@ message StdErrorEventRequest {
   string message = 2;
   google.protobuf.Timestamp timestamp = 3;
   string test_case_run_id = 4; // Reference to the specific test case run
+  string run_id = 5;
 }
 message StdOutputEventRequest {
   string test_id = 1;
   string message = 2;
   google.protobuf.Timestamp timestamp = 3;
   string test_case_run_id = 4; // Reference to the specific test case run
+  string run_id = 5;
 }
 
 message SuiteBeginEventRequest {
@@ -65,4 +69,9 @@ message SuiteEndEventRequest {
 message HeartbeatEventRequest {
   string source_id = 1; // Identifier for the source sending the heartbeat
   google.protobuf.Timestamp timestamp = 2;
+}
+
+message MapTestRunEventRequest {
+  string run_id = 1;
+  repeated testsystem.v1.entities.TestSuiteRun test_suites = 2;
 }

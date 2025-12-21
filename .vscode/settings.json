@@ -1,4 +1,9 @@
 {
   "git.autoStash": true,
-  "git.autofetch": true
+  "git.autofetch": true,
+
+  // Protobuf VSC: make workspace-root imports canonical, e.g.
+  // import "testsystem/v1/common/common.proto";
+  "protobuf.includes": ["${workspaceFolder}"],
+  "protobuf.protoc.options": ["--proto_path=${workspaceFolder}"]
 }

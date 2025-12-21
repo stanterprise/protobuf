@@ -8,21 +8,42 @@ option go_package = "github.com/stanterprise/proto-go/testsystem/v1/observer";
 option java_package = "com.stanterprise.testsystem.v1.observer";
 option java_multiple_files = true;
 
+// TestEventCollector defines the gRPC service for collecting test execution events
 service TestEventCollector {
+  // MapTestRun maps an incoming test run to the internal representation
+  rpc MapTestRun(testsystem.v1.events.MapTestRunEventRequest) returns (AckResponse);
+
+  // ReportSuiteBegin captures the beginning of a test suite execution
   rpc ReportSuiteBegin(testsystem.v1.events.SuiteBeginEventRequest) returns (AckResponse);
+  
+  // ReportSuiteEnd captures the end of a test suite execution
   rpc ReportSuiteEnd(testsystem.v1.events.SuiteEndEventRequest) returns (AckResponse);
 
+  // ReportTestBegin captures the beginning of a test case execution
   rpc ReportTestBegin(testsystem.v1.events.TestBeginEventRequest) returns (AckResponse);
+  
+  // ReportTestEnd captures the end of a test case execution
   rpc ReportTestEnd(testsystem.v1.events.TestEndEventRequest) returns (AckResponse);
 
+  // ReportStepBegin captures the beginning of a test step during execution
   rpc ReportStepBegin(testsystem.v1.events.StepBeginEventRequest) returns (AckResponse);
+  
+  // ReportStepEnd captures the end of a test step during execution
   rpc ReportStepEnd(testsystem.v1.events.StepEndEventRequest) returns (AckResponse);
 
+  // ReportTestFailure captures test failures during execution
   rpc ReportTestFailure(testsystem.v1.events.TestFailureEventRequest) returns (AckResponse);
+  
+  // ReportTestError captures errors that occur during test execution
   rpc ReportTestError(testsystem.v1.events.TestErrorEventRequest) returns (AckResponse);
+  
+  // ReportStdError captures standard error logs from test execution
   rpc ReportStdError(testsystem.v1.events.StdErrorEventRequest) returns (AckResponse);
+  
+  // ReportStdOutput captures standard output logs from test execution
   rpc ReportStdOutput(testsystem.v1.events.StdOutputEventRequest) returns (AckResponse);
 
+  // Heartbeat is used to signal that the test runner is still active
   rpc Heartbeat(testsystem.v1.events.HeartbeatEventRequest) returns (AckResponse);
 }
 
