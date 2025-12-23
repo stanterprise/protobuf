@@ -78,3 +78,9 @@ message MapTestRunEventRequest {
   string name = 4;
   map<string, string> metadata = 5;
 }
+
+message TestRunEndEventRequest {
+  string run_id = 1;
+  google.protobuf.Timestamp end_time = 2;
+  testsystem.v1.common.TestStatus final_status = 3;
+}

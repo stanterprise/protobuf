@@ -43,6 +43,9 @@ service TestEventCollector {
   // ReportStdOutput captures standard output logs from test execution
   rpc ReportStdOutput(testsystem.v1.events.StdOutputEventRequest) returns (AckResponse);
 
+  // ReportRunEnd captures the end of the entire test run
+  rpc ReportRunEnd(testsystem.v1.events.TestRunEndEventRequest) returns (AckResponse);
+
   // Heartbeat is used to signal that the test runner is still active
   rpc Heartbeat(testsystem.v1.events.HeartbeatEventRequest) returns (AckResponse);
 }
