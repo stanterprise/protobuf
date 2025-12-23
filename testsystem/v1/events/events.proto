@@ -74,4 +74,7 @@ message HeartbeatEventRequest {
 message MapTestRunEventRequest {
   string run_id = 1;
   repeated testsystem.v1.entities.TestSuiteRun test_suites = 2;
+  int32 total_tests = 3;
+  string name = 4;
+  map<string, string> metadata = 5;
 }
