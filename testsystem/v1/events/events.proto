@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 import "testsystem/v1/common/common.proto";
 import "testsystem/v1/entities/test_case.proto";
 import "testsystem/v1/entities/test_suite.proto";
+import "google/protobuf/duration.proto";
 
 option go_package = "github.com/stanterprise/proto-go/testsystem/v1/events";
 option java_package = "com.stanterprise.testsystem.v1.events";
@@ -81,6 +82,7 @@ message MapTestRunEventRequest {
 
 message TestRunEndEventRequest {
   string run_id = 1;
-  google.protobuf.Timestamp end_time = 2;
-  testsystem.v1.common.TestStatus final_status = 3;
+  testsystem.v1.common.TestStatus final_status = 2;
+  google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Duration duration = 4;
 }
