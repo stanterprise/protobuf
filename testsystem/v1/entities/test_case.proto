@@ -49,4 +49,5 @@ message StepRun {
     repeated string errors = 14; // List of all error messages observed during step execution, if any
     string location = 15; // Location in the code where the step is defined
     string category = 16; // Category of step (e.g., "hook", "fixture", "test.step")
+    int32 retry_index = 17; // Current retry attempt index of the parent test case
 }
