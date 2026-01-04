@@ -72,7 +72,7 @@ message HeartbeatEventRequest {
   google.protobuf.Timestamp timestamp = 2;
 }
 
-message MapTestRunEventRequest {
+message ReportRunStartEventRequest {
   string run_id = 1;
   repeated testsystem.v1.entities.TestSuiteRun test_suites = 2;
   int32 total_tests = 3;

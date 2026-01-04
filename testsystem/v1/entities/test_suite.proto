@@ -22,7 +22,7 @@ message TestSuiteRun {
     testsystem.v1.common.TestStatus status = 8; // Overall status of the suite run
     map<string, string> metadata = 9; // Additional metadata for the suite
     string location = 10; // Location or path of the test suite definition
-    SuiteType type = 11; // Type of the test suite (e.g., "root", "project", "subsuite")
+    SuiteType type = 11; // Type of the test suite (e.g., "root", "project", "subsuite", "file", etc.)
     string parent_suite_id = 12; // Reference to the parent suite, if any
     repeated string test_case_ids = 13; // List of test case IDs in this suite
     repeated string sub_suite_ids = 14; // Nested test suite IDs
@@ -38,4 +38,5 @@ enum SuiteType {
     ROOT = 0;
     PROJECT = 1;
     SUBSUITE = 2;
+    FILE = 3;
 }

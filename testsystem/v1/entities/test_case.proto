@@ -15,14 +15,14 @@ message TestCaseRun {
     string name = 2; // Name/title of the test case
     string description = 3; // Description of the test case
     string run_id = 4; // Identifier for the global test run this test belongs to
-    string test_suite_run_id = 5; // Reference to the test suite run this test belongs to
+    string test_suite_id = 5; // Reference to the test suite this test belongs to
     testsystem.v1.common.TestStatus status = 6; // Result status (e.g., "passed", "failed", "skipped")
     google.protobuf.Timestamp start_time = 7; // Start time of the test execution
     google.protobuf.Timestamp end_time = 8; // End time of the test execution
     google.protobuf.Duration duration = 9; // Duration of the test execution
     repeated testsystem.v1.common.Attachment attachments = 10; // Attachments related to the test result
     string error_message = 11; // Error message if the test failed
-    string stack_trace = 12;  // Stack trace if applicable
+    string stack_trace = 12; // Stack trace if applicable
     repeated string errors = 13; // List of error messages if any
     map<string, string> metadata = 14; // Additional metadata for the test result
     repeated string tags = 15; // Tags associated with the test case
@@ -35,7 +35,7 @@ message TestCaseRun {
 message StepRun {
     string id = 1; // Unique identifier for the step result
     string run_id = 2; // Identifier for the global test run this step belongs to
-    string test_case_run_id = 3; // Reference to the test case run this step belongs to
+    string test_case_id = 3; // Reference to the test case run this step belongs to, this ID is unique within the context of a test run
     string title = 4; // Title of the step
     string description = 5; // Description of the step
     google.protobuf.Timestamp start_time = 6; // Start time of the test execution

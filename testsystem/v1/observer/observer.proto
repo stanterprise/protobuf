@@ -10,8 +10,8 @@ option java_multiple_files = true;
 
 // TestEventCollector defines the gRPC service for collecting test execution events
 service TestEventCollector {
-  // MapTestRun maps an incoming test run to the internal representation
-  rpc MapTestRun(testsystem.v1.events.MapTestRunEventRequest) returns (AckResponse);
+  // ReportRunStart captures the start of the entire test run and maps the incoming test run to the internal representation
+  rpc ReportRunStart(testsystem.v1.events.ReportRunStartEventRequest) returns (AckResponse);
 
   // ReportSuiteBegin captures the beginning of a test suite execution
   rpc ReportSuiteBegin(testsystem.v1.events.SuiteBeginEventRequest) returns (AckResponse);
