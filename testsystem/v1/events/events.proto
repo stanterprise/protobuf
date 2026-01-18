@@ -35,7 +35,7 @@ message TestFailureEventRequest {
   google.protobuf.Timestamp timestamp = 4;
   repeated testsystem.v1.common.Attachment attachments = 5;
   string run_id = 6;
-  string retry_index = 7;
+  int32 retry_index = 7;
 }
 message TestErrorEventRequest {
   string test_id = 1;
@@ -44,7 +44,7 @@ message TestErrorEventRequest {
   google.protobuf.Timestamp timestamp = 4;
   repeated testsystem.v1.common.Attachment attachments = 5;
   string run_id = 6;
-  string retry_index = 7;
+  int32 retry_index = 7;
 }
 
 message StdErrorEventRequest {
@@ -53,7 +53,7 @@ message StdErrorEventRequest {
   google.protobuf.Timestamp timestamp = 3;
   string test_case_run_id = 4; // Reference to the specific test case run
   string run_id = 5;
-  string retry_index = 6;
+  int32 retry_index = 6;
 }
 message StdOutputEventRequest {
   string test_id = 1;
@@ -61,7 +61,7 @@ message StdOutputEventRequest {
   google.protobuf.Timestamp timestamp = 3;
   string test_case_run_id = 4; // Reference to the specific test case run
   string run_id = 5;
-  string retry_index = 6;
+  int32 retry_index = 6;
 }
 
 message SuiteBeginEventRequest {
