@@ -35,6 +35,7 @@ message TestFailureEventRequest {
   google.protobuf.Timestamp timestamp = 4;
   repeated testsystem.v1.common.Attachment attachments = 5;
   string run_id = 6;
+  string retry_index = 7;
 }
 message TestErrorEventRequest {
   string test_id = 1;
@@ -43,6 +44,7 @@ message TestErrorEventRequest {
   google.protobuf.Timestamp timestamp = 4;
   repeated testsystem.v1.common.Attachment attachments = 5;
   string run_id = 6;
+  string retry_index = 7;
 }
 
 message StdErrorEventRequest {
