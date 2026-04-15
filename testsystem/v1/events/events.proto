@@ -89,4 +89,5 @@ message TestRunEndEventRequest {
   testsystem.v1.common.TestStatus final_status = 2;
   google.protobuf.Timestamp start_time = 3;
   google.protobuf.Duration duration = 4;
+  map<string, string> metadata = 5;
 }
