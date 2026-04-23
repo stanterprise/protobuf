@@ -50,4 +50,5 @@ message StepRun {
     string location = 15; // Location in the code where the step is defined
     string category = 16; // Category of step (e.g., "hook", "fixture", "test.step")
     int32 retry_index = 17; // Current retry attempt index of the parent test case
+    repeated testsystem.v1.common.Attachment attachments = 18; // Attachments related to the step result
 }
