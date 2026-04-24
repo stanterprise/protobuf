@@ -32,6 +32,7 @@ message TestSuiteRun {
     string owner = 18; // Team or individual responsible for the test suite
     repeated testsystem.v1.entities.TestCaseRun test_cases = 19; // Nested test case objects (optional, for sending full structure)
     repeated TestSuiteRun sub_suites = 20; // Nested test suite objects (optional, for sending full structure)
+    string execution_id = 21; // Identifier for the specific execution instance of this test case (useful for parallel runs)
 }
 
 enum SuiteType {
