@@ -86,7 +86,7 @@ message ReportRunStartEventRequest {
   int32 total_tests = 3;
   string name = 4;
   map<string, string> metadata = 5;
-  string execution_id = 6; // Identifier for the specific execution instance of this test case (useful for parallel runs)
+  string execution_id = 6; // Identifier for the specific execution instance of this run (useful for parallel runs)
 }
 
 message TestRunEndEventRequest {
@@ -95,5 +95,5 @@ message TestRunEndEventRequest {
   google.protobuf.Timestamp start_time = 3;
   google.protobuf.Duration duration = 4;
   map<string, string> metadata = 5;
-  string execution_id = 6; // Identifier for the specific execution instance of this test case (useful for parallel runs)
+  string execution_id = 6; // Identifier for the specific execution instance of this test run (useful for parallel runs)
 }

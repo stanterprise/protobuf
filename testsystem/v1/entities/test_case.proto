@@ -52,5 +52,5 @@ message StepRun {
     string category = 16; // Category of step (e.g., "hook", "fixture", "test.step")
     int32 retry_index = 17; // Current retry attempt index of the parent test case
     repeated testsystem.v1.common.Attachment attachments = 18; // Attachments related to the step result
-    string execution_id = 19; // Identifier for the specific execution instance of this test case (useful for parallel runs)
+    string execution_id = 19; // Identifier for the specific execution instance of the parent test case run this step belongs to (useful for parallel runs)
 }
